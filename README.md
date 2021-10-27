@@ -33,7 +33,6 @@
 <h1 align="center">delta</h3>
 
   <p align="center">
-    rotational rotations for rotating around a rotisserie
     <br />
     <a href="https://github.com/smithandrewk/delta/wiki"><strong>documentation</strong></a>
   </p>
