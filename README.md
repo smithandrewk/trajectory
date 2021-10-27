@@ -30,19 +30,12 @@
 <br />
 <div align="center">
 
-<h1 align="center">project zeta</h3>
+<h1 align="center">delta</h3>
 
   <p align="center">
     rotational rotations for rotating around a rotisserie
     <br />
-    <a href="https://smithandrew.com/zeta"><strong>Explore the docs »</strong></a>
-<!--     <br />
-    <br />
-    <a href="https://github.com/smithandrewk/zeta">View Demo</a>
-    ·
-    <a href="https://github.com/smithandrewk/zeta/issues">Report Bug</a>
-    ·
-    <a href="https://github.com/smithandrewk/zeta/issues">Request Feature</a> -->
+    <a href="https://github.com/smithandrewk/delta/wiki"><strong>documentation</strong></a>
   </p>
 </div>
 
@@ -188,7 +181,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 ## Contact
 
 Your Name - [@uofscandrew](https://twitter.com/uofscandrew) - aks3@email.sc.edu
-Project Link: [https://github.com/github_username/zeta](https://github.com/smithandrewk/zeta)
+Project Link: [https://github.com/smithandrewk/delta](https://github.com/smithandrewk/delta)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -218,4 +211,4 @@ Project Link: [https://github.com/github_username/zeta](https://github.com/smith
 [license-url]: https://github.com/smithandrewk/zeta/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/linkedin_username
-[product-screenshot]: logo.gif
+[product-screenshot]: docs/images/cover.gif
