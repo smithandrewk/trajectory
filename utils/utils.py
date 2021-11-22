@@ -55,6 +55,30 @@ def plot(Q,length,save=False):
                             fargs=(Q, rot),
                             interval=10, blit=False)
     if(save):
-        writer = animation.ImageMagickWriter(fps=30,bitrate=1)
-        anim.save("anim.gif",writer=writer)
+        writer = animation.ImageMagickWriter(fps=5,bitrate=1)
+        anim.save("anim.mp4",writer=writer)
     plt.show()
+def preprocess_watch_data(df):
+    column_name_mapping_from_watch_names_to_my_names = {
+        'accelerometerTimestamp_sinceReboot(s)':'acc_t',
+        'accelerometerAccelerationX(G)':'acc_x',
+        'accelerometerAccelerationY(G)':'acc_y',
+        'accelerometerAccelerationZ(G)':'acc_z',
+        'motionTimestamp_sinceReboot(s)':'gyr_t',
+        'motionYaw(rad)':'yaw', 
+        'motionRoll(rad)':'roll', 
+        'motionPitch(rad)':'pitch',
+        'motionRotationRateX(rad/s)':'gyr_x', 
+        'motionRotationRateY(rad/s)':'gyr_y',
+        'motionRotationRateZ(rad/s)':'gyr_z', 
+        'motionUserAccelerationX(G)':'acc_x_2',
+        'motionUserAccelerationY(G)':'acc_y_2', 
+        'motionUserAccelerationZ(G)':'acc_z_2',
+        'motionQuaternionX(R)':'quat_x',
+        'motionQuaternionY(R)':'quat_y', 
+        'motionQuaternionZ(R)':'quat_z', 
+        'motionQuaternionW(R)':'quat_w'
+    }
+    df = df[list(column_name_mapping_from_watch_names_to_my_names.keys())]
+    df = df.rename(column_name_mapping_from_watch_names_to_my_names,axis=1)
+    return df
