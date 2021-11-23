@@ -82,3 +82,34 @@ def preprocess_watch_data(df):
     df = df[list(column_name_mapping_from_watch_names_to_my_names.keys())]
     df = df.rename(column_name_mapping_from_watch_names_to_my_names,axis=1)
     return df
+
+def make_cartesian_axes():
+    import matplotlib.pyplot as plt
+    # Select length of axes and the space between tick labels
+    xmin, xmax, ymin, ymax = -5, 5, -5, 5
+    ticks_frequency = 1
+
+    # Plot points
+    plt.figure(1)
+    # ax = plt.plot(figsize=(10, 10))
+
+    fig, ax = plt.subplots(figsize=(5, 5))
+    
+    fig.patch.set_facecolor('#ffffff')
+    ax.set(xlim=(xmin-1, xmax+1), ylim=(ymin-1, ymax+1), aspect='equal')
+    ax.spines['bottom'].set_position('zero')
+    ax.spines['left'].set_position('zero')
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+    ax.set_xlabel('$x$', size=14, labelpad=-24, x=1.02)
+    ax.set_ylabel('$y$', size=14, labelpad=-21, y=1.02, rotation=0)
+    plt.text(0.49, 0.49, r"$O$", ha='right', va='top',
+        transform=ax.transAxes,
+            horizontalalignment='center', fontsize=14)
+    x_ticks = np.arange(xmin, xmax+1, ticks_frequency)
+    y_ticks = np.arange(ymin, ymax+1, ticks_frequency)
+    ax.set_xticks(ticks=[])
+    ax.set_yticks(ticks=[])
+    ax.set_xticks(np.arange(xmin, xmax+1), minor=True)
+    ax.set_yticks(np.arange(ymin, ymax+1), minor=True)
+    return fig,ax
