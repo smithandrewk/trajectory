@@ -53,12 +53,14 @@ def plot(Q,length,save=False):
     ]
     anim = animation.FuncAnimation(fig, update_lines, length,
                             fargs=(Q, rot),
-                            interval=10, blit=False)
+                            interval=1, blit=False)
     if(save):
-        writer = animation.ImageMagickWriter(fps=5,bitrate=1)
+        writer = animation.ImageMagickWriter(fps=100,bitrate=1)
         anim.save("anim.mp4",writer=writer)
     plt.show()
-def preprocess_watch_data(df):
+def preprocess_watch_data(filename):
+    import pandas as pd
+    df = pd.read_csv(filename)
     column_name_mapping_from_watch_names_to_my_names = {
         'accelerometerTimestamp_sinceReboot(s)':'acc_t',
         'accelerometerAccelerationX(G)':'acc_x',
@@ -81,6 +83,19 @@ def preprocess_watch_data(df):
     }
     df = df[list(column_name_mapping_from_watch_names_to_my_names.keys())]
     df = df.rename(column_name_mapping_from_watch_names_to_my_names,axis=1)
+    import matplotlib.pyplot as plt
+    fig, (ax1,ax2,ax3) = plt.subplots(3,sharex=True,sharey=True)
+    import seaborn as sns
+    fig.set_size_inches(8.5,11)
+    sns.lineplot(ax=ax1,data=df,x='gyr_t',y='gyr_x')
+    sns.lineplot(ax=ax2,data=df,x='gyr_t',y='gyr_y')
+    sns.lineplot(ax=ax3,data=df,x='gyr_t',y='gyr_z')
+
+    fig, (ax1,ax2,ax3) = plt.subplots(3,sharex=True,sharey=True)
+    fig.set_size_inches(8.5,11)
+    sns.histplot(ax=ax1,data=df,x="gyr_x")
+    sns.histplot(ax=ax2,data=df,x="gyr_y")
+    sns.histplot(ax=ax3,data=df,x="gyr_z")
     return df
 
 def make_cartesian_axes():
