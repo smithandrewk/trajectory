@@ -2,3 +2,5 @@ baseURL = "https://smithandrewk.github.io/delta/"
 languageCode = "en-us"
 title = "Delta"
 theme = "hugo-book"
+[params]
+    BookMenuBundle = '/menu'
