@@ -58,7 +58,22 @@ def plot(Q,length,save=False):
         writer = animation.ImageMagickWriter(fps=100,bitrate=1)
         anim.save("anim.mp4",writer=writer)
     plt.show()
-def preprocess_watch_data(filename):
+
+def preprocess_watch_data(filename,save=True,plot=True):
+    """
+    params :
+        filename : absolute or relative path to raw input file obtained from SensorLog for Apple Watch
+        save : save preprocessed file if True (default to True)
+        plot : plot data if True (default to True)
+
+    returns : 
+        df : pandas dataframe which is a subset of the original data with renamed columns
+
+    description : function takes input filename of raw input file from SensorLog for Apple Watch,
+        extracts a subset of the data columns, renames these columns to be terse, optionally plots
+        statistics about gyroscopic data
+    """
+    # TODO: expand functionality to address acceleration
     import pandas as pd
     df = pd.read_csv(filename)
     column_name_mapping_from_watch_names_to_my_names = {
@@ -83,19 +98,22 @@ def preprocess_watch_data(filename):
     }
     df = df[list(column_name_mapping_from_watch_names_to_my_names.keys())]
     df = df.rename(column_name_mapping_from_watch_names_to_my_names,axis=1)
-    import matplotlib.pyplot as plt
-    fig, (ax1,ax2,ax3) = plt.subplots(3,sharex=True,sharey=True)
-    import seaborn as sns
-    fig.set_size_inches(8.5,11)
-    sns.lineplot(ax=ax1,data=df,x='gyr_t',y='gyr_x')
-    sns.lineplot(ax=ax2,data=df,x='gyr_t',y='gyr_y')
-    sns.lineplot(ax=ax3,data=df,x='gyr_t',y='gyr_z')
+    if(save):
+        df.to_csv(filename.replace(".csv","_preprocessed.csv"),index=False)
+    if(plot):
+        import matplotlib.pyplot as plt
+        fig, (ax1,ax2,ax3) = plt.subplots(3,sharex=True,sharey=True)
+        import seaborn as sns
+        fig.set_size_inches(8.5,11)
+        sns.lineplot(ax=ax1,data=df,x='gyr_t',y='gyr_x')
+        sns.lineplot(ax=ax2,data=df,x='gyr_t',y='gyr_y')
+        sns.lineplot(ax=ax3,data=df,x='gyr_t',y='gyr_z')
 
-    fig, (ax1,ax2,ax3) = plt.subplots(3,sharex=True,sharey=True)
-    fig.set_size_inches(8.5,11)
-    sns.histplot(ax=ax1,data=df,x="gyr_x")
-    sns.histplot(ax=ax2,data=df,x="gyr_y")
-    sns.histplot(ax=ax3,data=df,x="gyr_z")
+        fig, (ax1,ax2,ax3) = plt.subplots(3,sharex=True,sharey=True)
+        fig.set_size_inches(8.5,11)
+        sns.histplot(ax=ax1,data=df,x="gyr_x")
+        sns.histplot(ax=ax2,data=df,x="gyr_y")
+        sns.histplot(ax=ax3,data=df,x="gyr_z")
     return df
 
 def make_cartesian_axes():
