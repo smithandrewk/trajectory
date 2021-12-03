@@ -85,7 +85,11 @@ RB
 \begin{bmatrix}
    1 & 0 \\
    0 & 1
-\end{bmatrix}=
+\end{bmatrix}
+{{< /katex >}}
+
+{{< katex display>}}
+=
 \begin{bmatrix}
    \cos(\frac{\pi}{2}) & -\sin(\frac{\pi}{2}) \\
    \sin(\frac{\pi}{2}) & \cos(\frac{\pi}{2})
@@ -97,12 +101,20 @@ RB
 \begin{bmatrix}
    0 & -1 \\
    1 & 0
-\end{bmatrix}=
+\end{bmatrix}
+{{< /katex >}}
+
+
+{{< katex display>}}
+=
 \begin{bmatrix}
    i & j \\
 \end{bmatrix}.
 {{< /katex >}}
-{{< columns >}}
-![gif](out.gif)
-<--->
+
+{{<columns>}}
+
 ![gif](final.svg)
+
+![gif](out.gif)
+
