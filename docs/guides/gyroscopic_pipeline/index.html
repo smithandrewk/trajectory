@@ -1,0 +1,218 @@
+<!doctype html><html lang=en dir=ltr>
+<head>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta name=description content="Gyroscopic Pipeline #  We want to determine the orientation of a rigid body in 3 dimensions based on its Angular Velocity.
+In this pipeline, we consider the rigid body&rsquo;s position to be fixed. In the future, we will consider position not to be fixed; however, we make this idealization to consider gyration first.
+Before proceeding with a 3 dimensional mathematical process, let us consider an idealization in 2 dimensions.">
+<meta name=theme-color content="#FFFFFF">
+<meta name=color-scheme content="light dark"><meta property="og:title" content>
+<meta property="og:description" content="Gyroscopic Pipeline #  We want to determine the orientation of a rigid body in 3 dimensions based on its Angular Velocity.
+In this pipeline, we consider the rigid body&rsquo;s position to be fixed. In the future, we will consider position not to be fixed; however, we make this idealization to consider gyration first.
+Before proceeding with a 3 dimensional mathematical process, let us consider an idealization in 2 dimensions.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://smithandrewk.github.io/delta/docs/guides/gyroscopic_pipeline/"><meta property="article:section" content="docs">
+<title>Gyroscopic Pipeline | Delta</title>
+<link rel=manifest href=/delta/manifest.json>
+<link rel=icon href=/delta/favicon.png type=image/x-icon>
+<link rel=stylesheet href=/delta/book.min.46181bc93375ba932026e753b37c40e6ff8bb16a9ef770c78bcc663e4577b1ba.css integrity="sha256-RhgbyTN1upMgJudTs3xA5v+LsWqe93DHi8xmPkV3sbo=" crossorigin=anonymous>
+<script defer src=/delta/flexsearch.min.js></script>
+<script defer src=/delta/en.search.min.cfcbf3d98188664b3dba101df1f481be32724e26b7129837b48f166c2c868a23.js integrity="sha256-z8vz2YGIZks9uhAd8fSBvjJyTia3Epg3tI8WbCyGiiM=" crossorigin=anonymous></script>
+</head>
+<body dir=ltr>
+<input type=checkbox class="hidden toggle" id=menu-control>
+<input type=checkbox class="hidden toggle" id=toc-control>
+<main class="container flex">
+<aside class=book-menu>
+<div class=book-menu-content>
+<nav>
+<h2 class=book-brand>
+<a class="flex align-center" href=/delta/><span>Delta</span>
+</a>
+</h2>
+<div class=book-search>
+<input type=text id=book-search-input placeholder=Search aria-label=Search maxlength=64 data-hotkeys=s/>
+<div class="book-search-spinner hidden"></div>
+<ul id=book-search-results></ul>
+</div>
+<ul>
+<li><a href=/delta/docs/guides/><strong>Guides</strong></a>
+<ul>
+<li><a href=/delta/docs/guides/gyroscopic_pipeline/ class=active>Gyroscopic Pipeline</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>
+<a href=/delta/posts/>
+Blog
+</a>
+</li>
+</ul>
+</nav>
+<script>(function(){var a=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(b){localStorage.setItem("menu.scrollTop",a.scrollTop)}),a.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+</div>
+</aside>
+<div class=book-page>
+<header class=book-header>
+<div class="flex align-center justify-between">
+<label for=menu-control>
+<img src=/delta/svg/menu.svg class=book-icon alt=Menu>
+</label>
+<strong>Gyroscopic Pipeline</strong>
+<label for=toc-control>
+<img src=/delta/svg/toc.svg class=book-icon alt="Table of Contents">
+</label>
+</div>
+<aside class="hidden clearfix">
+<nav id=TableOfContents>
+<ul>
+<li><a href=#2-dimensional-idealization>2 Dimensional Idealization</a></li>
+<li><a href=#formalism>Formalism</a></li>
+<li><a href=#example>Example</a></li>
+</ul>
+</nav>
+</aside>
+</header>
+<article class=markdown><h1 id=gyroscopic-pipeline>
+Gyroscopic Pipeline
+<a class=anchor href=#gyroscopic-pipeline>#</a>
+</h1>
+<p>We want to determine the <em>orientation</em> of a rigid body in 3 dimensions based on its <em>Angular Velocity</em>.</p>
+<p><img src=cube_rotation.gif alt=fig></p>
+<p>In this pipeline, we consider the rigid body&rsquo;s <em>position</em> to be fixed. In the future, we will consider position not to be fixed; however, we make this idealization to consider gyration first.</p>
+<p><strong>Before proceeding with a 3 dimensional mathematical process, let us consider an idealization in 2 dimensions.</strong></p>
+<h2 id=2-dimensional-idealization>
+2 Dimensional Idealization
+<a class=anchor href=#2-dimensional-idealization>#</a>
+</h2>
+<p>Imagine you live in <em>flatland</em>,</p>
+<p><img src=fig.svg alt=fig></p>
+<p>a 2-dimensional land whererin you are a 1-dimensional creature (with a rigid-ish body).</p>
+<p><img src=you.svg alt=you></p>
+<p>You can <em>rotate</em> 20 degrees about the <em>origin</em>, labeled &lsquo;O&rsquo;, resulting in an <em>orientation</em> of 20 degrees counterclockwise about the origin.</p>
+<p><img src=you_rot_20.svg alt=you_20_degrees></p>
+<p>You can also rotate 90 degrees, or pi/2 radians.</p>
+<p><img src=you_rot_90.svg alt=you_90_degrees></p>
+<p>So, we can define your (or any rigid body&rsquo;s) orientation by the angle rotated minus the initial angle.</p>
+<h2 id=formalism>
+Formalism
+<a class=anchor href=#formalism>#</a>
+</h2>
+<p>Let
+<link rel=stylesheet href=/delta/katex/katex.min.css>
+<script defer src=/delta/katex/katex.min.js></script>
+<script defer src=/delta/katex/auto-render.min.js onload=renderMathInElement(document.body)></script><span>
+\(A\)
+</span>
+be a rigid body centered at the origin in a 2 dimensional cartesian space. Define the initial orientation of the rigid body by the basis
+<span>
+\[B
+=
+\begin{bmatrix}
+i & j \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+1 & 0 \\
+0 & 1
+\end{bmatrix}\]
+</span>
+shown in the following figure where <em>i</em> is red and <em>j</em> is green.</p>
+<p><img src=initial.svg alt></p>
+<p>The resulting <em>orientation</em> after a rotation of <span>
+\(\theta\)
+</span>
+radians can be described by the following rotation matrix:</p>
+<p><em>see page on rotation matrices</em>
+<span>
+\[R
+=
+\begin{bmatrix}
+\cos(\theta) & -\sin(\theta) \\
+\sin(\theta) & \cos(\theta)
+\end{bmatrix}.\]
+</span>
+</p>
+<p>We obtain the new basis by</p>
+<span>
+\[RB
+=
+\begin{bmatrix}
+\cos(\theta) & -\sin(\theta) \\
+\sin(\theta) & \cos(\theta)
+\end{bmatrix}
+\begin{bmatrix}
+1 & 0 \\
+0 & 1
+\end{bmatrix}=R.\]
+</span>
+<h2 id=example>
+Example
+<a class=anchor href=#example>#</a>
+</h2>
+<p>Suppose
+<span>
+\(\theta=\frac{\pi}{2}\)
+</span>
+radians. Then we have the following orientation:
+<span>
+\[RB
+=
+\begin{bmatrix}
+\cos(\frac{\pi}{2}) & -\sin(\frac{\pi}{2}) \\
+\sin(\frac{\pi}{2}) & \cos(\frac{\pi}{2})
+\end{bmatrix}
+\begin{bmatrix}
+1 & 0 \\
+0 & 1
+\end{bmatrix}=
+\begin{bmatrix}
+\cos(\frac{\pi}{2}) & -\sin(\frac{\pi}{2}) \\
+\sin(\frac{\pi}{2}) & \cos(\frac{\pi}{2})
+\end{bmatrix}\]
+</span>
+</p>
+<p><span>
+\[=
+\begin{bmatrix}
+0 & -1 \\
+1 & 0
+\end{bmatrix}=
+\begin{bmatrix}
+i & j \\
+\end{bmatrix}.\]
+</span>
+<div class="book-columns flex flex-wrap">
+<div class="flex-even markdown-inner">
+<img src=out.gif alt=gif>
+</div>
+<div class="flex-even markdown-inner">
+<img src=final.svg alt=gif>
+</div>
+</div>
+</p>
+</article>
+<footer class=book-footer>
+<div class="flex flex-wrap justify-between">
+</div>
+<script>(function(){function a(c){const a=window.getSelection(),b=document.createRange();b.selectNodeContents(c),a.removeAllRanges(),a.addRange(b)}document.querySelectorAll("pre code").forEach(b=>{b.addEventListener("click",function(c){a(b.parentElement),navigator.clipboard&&navigator.clipboard.writeText(b.parentElement.textContent)})})})()</script>
+</footer>
+<div class=book-comments>
+</div>
+<label for=menu-control class="hidden book-menu-overlay"></label>
+</div>
+<aside class=book-toc>
+<div class=book-toc-content>
+<nav id=TableOfContents>
+<ul>
+<li><a href=#2-dimensional-idealization>2 Dimensional Idealization</a></li>
+<li><a href=#formalism>Formalism</a></li>
+<li><a href=#example>Example</a></li>
+</ul>
+</nav>
+</div>
+</aside>
+</main>
+</body>
+</html>
