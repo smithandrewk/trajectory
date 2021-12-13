@@ -118,3 +118,7 @@ RB
 
 ![gif](out.gif)
 
+# Gyroscope
+Suppose the rigid body has a gyroscope which is located on the rigid body at the origin. As the rigid body rotates, so does the gyroscope. The gyroscope has a sampling rate f, and the gyroscope provides a 'reading' every 1/f seconds. Suppose this gyroscope has 1 degree of freedom (natural for a gyroscope living in a 2 dimensional world); thus, a reading from the gyroscope consists of 1 value, angular velocity, omega. Suppose this gyroscope also outputs a timestamp t with omega.
+
+Suppose the rigid body is at rest, then the reading from the gyroscope will be (omega,t) = (0 rad/s, t)
