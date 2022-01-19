@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """
 ==================
-Animate Romation
+Animate Trajectory
 ==================
 
-Animates a rotation.
+Animates a rotation and translation in 3 dimensions.
 """
 print(__doc__)
 
@@ -46,5 +46,5 @@ trajectory[2] = x
 trajectory = trajectory.T
 
 
-from animate_trajectory import animate_trajectory
+from scripts.animate_trajectory import animate_trajectory
 animate_trajectory(time,bases,trajectory)
