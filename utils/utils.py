@@ -1,13 +1,25 @@
 import numpy as np
 
-
+def get_yaw_pitch_roll(n,omega,time,thetas):
+    return omega[n]*(time[n]-time[n-1])+thetas[n-1]
 def get_axis_angle(dt, angular_velocity):
     norm = np.linalg.norm(angular_velocity)
     axis = angular_velocity/norm
     angle = dt*norm
     return axis, angle
-
-
+def get_rotation_matrix_from_yaw_pitch_roll(roll,pitch,yaw):
+    from math import cos,sin
+    ## according to right hand rule,
+    # yaw = z rotation
+    # pitch = y rotation
+    # roll = x rotation
+    R_x = np.array([[1,0,0],[0,cos(roll),-sin(roll)],[0,sin(roll),cos(roll)]])
+    R_y = np.array([[cos(pitch),0,sin(pitch)],[0,1,0],[-sin(pitch),0,cos(pitch)]])
+    R_z = np.array([[cos(yaw),-sin(yaw),0],[sin(yaw),cos(yaw),0],[0,0,1]])
+    R = R_z @ R_y @ R_x
+    return R
+def get_rotated_basis(basis,R):
+    return R @ basis
 def plot(Q, length, save=False):
     # plotting
     import numpy as np
@@ -105,6 +117,7 @@ def preprocess_watch_data(filename, save=True, plot=True):
     if(save):
         df.to_csv(filename.replace(".csv", "_preprocessed.csv"), index=False)
     if(plot):
+        print("here")
         import matplotlib.pyplot as plt
         fig, (ax1, ax2, ax3) = plt.subplots(3, sharex=True, sharey=True)
         import seaborn as sns
@@ -118,6 +131,7 @@ def preprocess_watch_data(filename, save=True, plot=True):
         sns.histplot(ax=ax1, data=df, x="gyr_x")
         sns.histplot(ax=ax2, data=df, x="gyr_y")
         sns.histplot(ax=ax3, data=df, x="gyr_z")
+        plt.show()
     return df
 
 
