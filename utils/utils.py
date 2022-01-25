@@ -1,5 +1,16 @@
 import numpy as np
-
+def get_tilt_correction_rotation_matrix_from_accelerometer(acceleration):
+    a = acceleration
+    b = np.array([0,0,-1])
+    v = np.cross(a,b)
+    s = np.linalg.norm(v)
+    c = np.dot(a,b)
+    I = np.eye(3,3)
+    v_x = np.array([[0,-v[2],v[1]],
+                    [v[2],0,-v[0]],
+                    [-v[1],v[0],0]])
+    R = I + v_x + (v_x @ v_x * (1/(1+c)))
+    return R
 def get_yaw_pitch_roll(n,omega,time,thetas):
     return omega[n]*(time[n]-time[n-1])+thetas[n-1]
 def get_axis_angle(dt, angular_velocity):
@@ -231,3 +242,43 @@ def get_2d_cartesian_axes():
     ax.set_xticks(np.arange(xmin, xmax+1), minor=True)
     ax.set_yticks(np.arange(ymin, ymax+1), minor=True)
     return fig, ax
+def animate_trajectory(time,bases,trajectory):
+    import numpy as np
+    import matplotlib.pyplot as plt
+    from mpl_toolkits.mplot3d import axes3d
+    import matplotlib.animation as animation
+    from pytransform3d.plot_utils import Frame
+    from pytransform3d import rotations as pr
+    if(trajectory==None):
+        print("here")
+        trajectory = np.zeros([3,len(time)]).T
+    def update_frame(step, n_frames, frame):
+        R = bases[step]
+        A2B = np.eye(4)
+        A2B[:3, :3] = R
+        A2B[:3,3] = trajectory[step]
+        frame.set_data(A2B)
+        return frame
+
+
+    n_frames = len(time)
+
+    fig = plt.figure(figsize=(5, 5))
+
+    ax = fig.add_subplot(111, projection="3d")
+    ax.set_xlim((-10, 10))
+    ax.set_ylim((-10, 10))
+    ax.set_zlim((-10, 10))
+    ax.set_xlabel("X")
+    ax.set_ylabel("Y")
+    ax.set_zlabel("Z")
+
+    frame = Frame(np.eye(4), label="rotating frame", s=0.5)
+    frame.add_frame(ax)
+
+    anim = animation.FuncAnimation(
+        fig, update_frame, n_frames, fargs=(n_frames, frame), interval=50,
+        blit=False)
+    anim.save('figures/basic_animation.mp4', fps=100, extra_args=['-vcodec', 'libx264'])
+
+    plt.show()
