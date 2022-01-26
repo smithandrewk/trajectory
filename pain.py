@@ -1,10 +1,11 @@
+#!/usr/bin/env python3
 import time
 def follow(thefile):
     thefile.seek(0,2) # Go to the end of the file
     while True:
         line = thefile.readline()
         if not line:
-            time.sleep(0.1) # Sleep briefly
+            time.sleep(0.001) # Sleep briefly
             continue
         yield line
 """
@@ -32,7 +33,7 @@ def process_line(line):
 from matplotlib import pyplot as plt
 
 
-fig = plt.figure()
+fig = plt.figure(figsize=(10, 20), dpi=200)
 ax = fig.add_subplot(111)
 ax.set_ylim([-6, 6])
 plt.ion()
@@ -56,13 +57,19 @@ def mypause(interval):
             canvas.start_event_loop(interval)
             return
 
-f = open('../stream.csv','r')
+f = open('stream','r')
 for line in follow(f):
-    if(len(x)==100):
-        x.pop()
-        acc_x.pop()
-        acc_y.pop()
-        acc_z.pop()
+    if(len(x)==300):
+        del x[0]
+        del acc_x[0]
+        del acc_y[0]
+        del acc_z[0]
+
+
+        # x.pop()
+        # acc_x.pop()
+        # acc_y.pop()
+        # acc_z.pop()
     t,acc = process_line(line)
     print(t,acc)
     print("Length : ",len(x))
@@ -72,9 +79,11 @@ for line in follow(f):
     acc_x.append(acc[0])
     acc_y.append(acc[1])
     acc_z.append(acc[2])
+    plt.autoscale(True)
+    plt.clf()
 
     plt.plot(x,acc_x,'r',markersize=1,linewidth=.5)
     plt.plot(x,acc_y,'g',markersize=1,linewidth=.5)
     plt.plot(x,acc_z,'b',markersize=1,linewidth=.5)
-    plt.pause(0.0001) 
-    # mypause(.0001)        
+    # plt.pause(0.0001) 
+    mypause(.0001)        
