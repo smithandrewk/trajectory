@@ -45,8 +45,10 @@ def process_line(line):
     """
     line = line.strip()
     line = line.split(',')
-    t = line[2]
-    acc = line[3:6]
+    # t = line[2]
+    # acc = line[3:6]
+    t = line[10]
+    acc = line[11:14]
     return t, acc
 
 
@@ -118,9 +120,15 @@ f = open('stream', 'r')
 for line in follow(f):
     t, acc = process_line(line)
     t = float(t)
-    acc = list(map(float, acc))
+    print(acc)
+    try:
+        acc = list(map(float, acc))
+    except:
+        print("An exception occurred")
+
     delta_t = t-last_t
     Hz = 1/delta_t
     # print(t, delta_t, Hz)
     last_t = t
     p.multiplot([int(acc[0]*200), int(acc[1]*200), int(acc[2]*200)])
+f.close()
