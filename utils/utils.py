@@ -282,3 +282,68 @@ def animate_trajectory(time,bases,trajectory):
     anim.save('figures/basic_animation.mp4', fps=100, extra_args=['-vcodec', 'libx264'])
 
     plt.show()
+# Plot values in opencv program
+import cv2
+
+class Plotter:
+    def __init__(self, plot_width, plot_height, num_plot_values):
+        self.width = plot_width
+        self.height = plot_height
+        BLUE = (100, 0, 0)
+        GREEN = (250, 255, 0)
+        RED = (0,0,125)
+        self.color_list = [RED, GREEN, BLUE]
+        self.color = []
+        self.val = []
+        self.bg_color = 255
+        self.plot = np.ones((self.height, self.width, 3))*self.bg_color
+
+        for i in range(num_plot_values):
+            self.color.append(self.color_list[i])
+    # Update new values in plot
+    def multiplot(self, val, label="plot"):
+        self.val.append(val)
+        while len(self.val) > self.width:
+            self.val.pop(0)
+        self.show_plot(label)
+
+    # Show plot using opencv imshow
+    def show_plot(self, label):
+        self.plot = np.ones((self.height, self.width, 3))*self.bg_color
+        # cv2.line(self.plot, (0, int(self.height/2) ), (self.width, int(self.height/2)), (0,255,0), 1)
+        for i in range(len(self.val)-1):
+            for j in range(len(self.val[0])):
+                cv2.line(self.plot, (i, int(self.height/2) - self.val[i][j]), (i+1, int(
+                    self.height/2) - self.val[i+1][j]), self.color[j], 1)
+
+        cv2.imshow(label, self.plot)
+        cv2.waitKey(10)
+def process_line(line,device):
+    """
+    loggingTime(txt),
+    loggingSample(N),
+    accelerometerTimestamp_sinceReboot(s),
+    accelerometerAccelerationX(G),
+    accelerometerAccelerationY(G),
+    accelerometerAccelerationZ(G),
+    gyroTimestamp_sinceReboot(s),
+    gyroRotationX(rad/s),
+    gyroRotationY(rad/s),
+    gyroRotationZ(rad/s),
+    magnetometerTimestamp_sinceReboot(s),
+    magnetometerX(µT),
+    magnetometerY(µT),
+    magnetometerZ(µT)
+    """
+    line = line.strip()
+    line = line.split(',')
+    if(device=="watch"):
+        t = float(line[10])
+        acc = line[11:14]
+    elif(device=="phone"):
+        t = float(line[2])
+        acc = list(map(float, line[3:6]))
+    else:
+        t = None
+        acc = None
+    return t, acc

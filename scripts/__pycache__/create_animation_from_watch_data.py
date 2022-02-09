@@ -46,5 +46,5 @@ trajectory[2] = x
 trajectory = trajectory.T
 
 
-from scripts.animate_trajectory import animate_trajectory
+from utils.utils import animate_trajectory
 animate_trajectory(time,bases,trajectory)
