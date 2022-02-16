@@ -262,13 +262,13 @@ def animate_trajectory(time,bases,trajectory):
 
 
     n_frames = len(time)
-
+    lim = 2
     fig = plt.figure(figsize=(5, 5))
 
     ax = fig.add_subplot(111, projection="3d")
-    ax.set_xlim((-10, 10))
-    ax.set_ylim((-10, 10))
-    ax.set_zlim((-10, 10))
+    ax.set_xlim((-lim, lim))
+    ax.set_ylim((-lim, lim))
+    ax.set_zlim((-lim, lim))
     ax.set_xlabel("X")
     ax.set_ylabel("Y")
     ax.set_zlabel("Z")
@@ -335,15 +335,78 @@ def process_line(line,device):
     magnetometerY(µT),
     magnetometerZ(µT)
     """
+    """watch
+    loggingTime(txt),
+    locationTimestamp_since1970(s),
+    locationLatitude(WGS84),
+    locationLongitude(WGS84),
+    locationAltitude(m),
+    locationSpeed(m/s),
+    locat     ionCourse(°),
+    locationVerticalAccuracy(m),
+    locationHorizontalAccuracy(m),
+    locationFloor(Z),
+    accelerometerTimestamp_sinceReboot(s),
+    accelerometerAc     celerationX(G),
+    accelerometerAccelerationY(G),
+    accelerometerAccelerationZ(G),
+    motionTimestamp_sinceReboot(s),
+    motionYaw(rad),
+    motionRoll(rad),
+    motionPitch(rad),
+    motionRotationRateX(rad/s),
+    motionRotationRateY(rad/s),
+    motionRotationRateZ(rad/s),
+    motionUserAccelerationX(G),
+    motionUserAccelerati     onY(G),
+    motionUserAccelerationZ(G),
+    motionAttitudeReferenceFrame(txt),
+    motionQuaternionX(R),
+    motionQuaternionY(R),
+    motionQuaternionZ(R),
+    motionQuat     ernionW(R),
+    motionGravityX(G),
+    motionGravityY(G),
+    motionGravityZ(G),
+    motionMagneticFieldX(µT),
+    motionMagneticFieldY(µT),
+    motionMagneticFieldZ(µT),
+    m     otionHeading(°),m
+    otionMagneticFieldCalibrationAccuracy(Z),
+    activityTimestamp_sinceReboot(s),
+    activity(txt),activityActivityConfidence(Z),
+    activi     tyActivityStartDate(txt),p
+    edometerStartDate(txt),
+    pedometerNumberofSteps(N),
+    pedometerAverageActivePace(s/m),
+    pedometerCurrentPace(s/m),
+    pedomete     rCurrentCadence(steps/s),
+    pedometerDistance(m),
+    pedometerFloorAscended(N),
+    pedometerFloorDescended(N)
+    ,pedometerEndDate(txt),
+    altimeterTimestamp_s     inceReboot(s)
+    ,altimeterReset(bool),
+    altimeterRelativeAltitude(m),
+    altimeterPressure(kPa),
+    batteryState(N),
+    batteryLevel(R)
+
+    """
     line = line.strip()
     line = line.split(',')
+    if(line[0]=="loggingTime(txt)"):
+        return 0,0,0
     if(device=="watch"):
         t = float(line[10])
         acc = line[11:14]
+        omega = list(map(float, line[18:21]))
     elif(device=="phone"):
         t = float(line[2])
+        omega = list(map(float, line[7:10]))
         acc = list(map(float, line[3:6]))
     else:
         t = None
         acc = None
-    return t, acc
+        omega = None
+    return t, omega, acc
