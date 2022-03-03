@@ -12,14 +12,12 @@ In this pipeline, we consider the rigid body&rsquo;s position to be fixed. In th
 Before proceeding with a 3 dimensional mathematical process, let us consider an idealization in 2 dimensions.">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://smithandrewk.github.io/delta/docs/guides/gyroscopic_pipeline/"><meta property="article:section" content="docs">
-<title>Gyroscopic Pipeline | Delta</title>
-<link rel=manifest href=/delta/manifest.json>
+<title>Gyroscopic Pipeline | Delta</title><link rel=manifest href=/delta/manifest.json>
 <link rel=icon href=/delta/favicon.png type=image/x-icon>
 <link rel=stylesheet href=/delta/book.min.46181bc93375ba932026e753b37c40e6ff8bb16a9ef770c78bcc663e4577b1ba.css integrity="sha256-RhgbyTN1upMgJudTs3xA5v+LsWqe93DHi8xmPkV3sbo=" crossorigin=anonymous>
 <script defer src=/delta/flexsearch.min.js></script>
-<script defer src=/delta/en.search.min.1ce2595fa59694afdd6567d0faaa8768586027f788775dce8d1c762b71118a08.js integrity="sha256-HOJZX6WWlK/dZWfQ+qqHaFhgJ/eId13OjRx2K3ERigg=" crossorigin=anonymous></script>
-</head>
-<body dir=ltr>
+<script defer src=/delta/en.search.min.ccda0e2f06d730bd70a31d7d7f2e7698b09a605fc275cf1f76ebcde6511974f6.js integrity="sha256-zNoOLwbXML1wox19fy52mLCaYF/Cdc8fduvN5lEZdPY=" crossorigin=anonymous></script>
+</head><body dir=ltr>
 <input type=checkbox class="hidden toggle" id=menu-control>
 <input type=checkbox class="hidden toggle" id=toc-control>
 <main class="container flex">
@@ -29,31 +27,18 @@ Before proceeding with a 3 dimensional mathematical process, let us consider an 
 <h2 class=book-brand>
 <a class="flex align-center" href=/delta/><span>Delta</span>
 </a>
-</h2>
-<div class=book-search>
+</h2><div class=book-search>
 <input type=text id=book-search-input placeholder=Search aria-label=Search maxlength=64 data-hotkeys=s/>
-<div class="book-search-spinner hidden"></div>
-<ul id=book-search-results></ul>
-</div>
-<ul>
+<div class="book-search-spinner hidden"></div><ul id=book-search-results></ul></div><ul>
 <li><a href=/delta/docs/guides/><strong>Guides</strong></a>
 <ul>
-<li><a href=/delta/docs/guides/gyroscopic_pipeline/ class=active>Gyroscopic Pipeline</a></li>
-</ul>
-</li>
-</ul>
-<ul>
+<li><a href=/delta/docs/guides/gyroscopic_pipeline/ class=active>Gyroscopic Pipeline</a></li></ul></li></ul><ul>
 <li>
 <a href=/delta/posts/>
 Blog
 </a>
-</li>
-</ul>
-</nav>
-<script>(function(){var a=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(b){localStorage.setItem("menu.scrollTop",a.scrollTop)}),a.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
-</div>
-</aside>
-<div class=book-page>
+</li></ul></nav><script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+</div></aside><div class=book-page>
 <header class=book-header>
 <div class="flex align-center justify-between">
 <label for=menu-control>
@@ -63,43 +48,19 @@ Blog
 <label for=toc-control>
 <img src=/delta/svg/toc.svg class=book-icon alt="Table of Contents">
 </label>
-</div>
-<aside class="hidden clearfix">
+</div><aside class="hidden clearfix">
 <nav id=TableOfContents>
 <ul>
-<li><a href=#2-dimensional-idealization>2 Dimensional Idealization</a></li>
-<li><a href=#formalism>Formalism</a></li>
-<li><a href=#example>Example</a></li>
-</ul>
-</nav>
-</aside>
-</header>
-<article class=markdown><h1 id=gyroscopic-pipeline>
+<li><a href=#2-dimensional-idealization>2 Dimensional Idealization</a></li><li><a href=#formalism>Formalism</a></li><li><a href=#example>Example</a></li></ul></nav></aside></header><article class=markdown><h1 id=gyroscopic-pipeline>
 Gyroscopic Pipeline
 <a class=anchor href=#gyroscopic-pipeline>#</a>
-</h1>
-<p>We want to determine the <em>orientation</em> of a rigid body in 3 dimensions based on its <em>Angular Velocity</em>.</p>
-<p><img src=cube_rotation.gif alt=fig></p>
-<p>In this pipeline, we consider the rigid body&rsquo;s <em>position</em> to be fixed. In the future, we will consider position not to be fixed; however, we make this idealization to consider gyration first.</p>
-<p><strong>Before proceeding with a 3 dimensional mathematical process, let us consider an idealization in 2 dimensions.</strong></p>
-<h2 id=2-dimensional-idealization>
+</h1><p>We want to determine the <em>orientation</em> of a rigid body in 3 dimensions based on its <em>Angular Velocity</em>.</p><p><img src=cube_rotation.gif alt=fig></p><p>In this pipeline, we consider the rigid body&rsquo;s <em>position</em> to be fixed. In the future, we will consider position not to be fixed; however, we make this idealization to consider gyration first.</p><p><strong>Before proceeding with a 3 dimensional mathematical process, let us consider an idealization in 2 dimensions.</strong></p><h2 id=2-dimensional-idealization>
 2 Dimensional Idealization
 <a class=anchor href=#2-dimensional-idealization>#</a>
-</h2>
-<p>Imagine you live in <em>flatland</em>,</p>
-<p><img src=fig.svg alt=fig></p>
-<p>a 2-dimensional land whererin you are a 1-dimensional creature (with a rigid-ish body).</p>
-<p><img src=you.svg alt=you></p>
-<p>You can <em>rotate</em> 20 degrees about the <em>origin</em>, labeled &lsquo;O&rsquo;, resulting in an <em>orientation</em> of 20 degrees counterclockwise about the origin.</p>
-<p><img src=you_rot_20.svg alt=you_20_degrees></p>
-<p>You can also rotate 90 degrees, or pi/2 radians.</p>
-<p><img src=you_rot_90.svg alt=you_90_degrees></p>
-<p>So, we can define your (or any rigid body&rsquo;s) orientation by the angle rotated minus the initial angle.</p>
-<h2 id=formalism>
+</h2><p>Imagine you live in <em>flatland</em>,</p><p><img src=fig.svg alt=fig></p><p>a 2-dimensional land whererin you are a 1-dimensional creature (with a rigid-ish body).</p><p><img src=you.svg alt=you></p><p>You can <em>rotate</em> 20 degrees about the <em>origin</em>, labeled &lsquo;O&rsquo;, resulting in an <em>orientation</em> of 20 degrees counterclockwise about the origin.</p><p><img src=you_rot_20.svg alt=you_20_degrees></p><p>You can also rotate 90 degrees, or pi/2 radians.</p><p><img src=you_rot_90.svg alt=you_90_degrees></p><p>So, we can define your (or any rigid body&rsquo;s) orientation by the angle rotated minus the initial angle.</p><h2 id=formalism>
 Formalism
 <a class=anchor href=#formalism>#</a>
-</h2>
-<p>Let
+</h2><p>Let
 <link rel=stylesheet href=/delta/katex/katex.min.css>
 <script defer src=/delta/katex/katex.min.js></script>
 <script defer src=/delta/katex/auto-render.min.js onload=renderMathInElement(document.body)></script><span>
@@ -118,13 +79,10 @@ i & j \\
 0 & 1
 \end{bmatrix}\]
 </span>
-shown in the following figure where <em>i</em> is red and <em>j</em> is green.</p>
-<p><img src=initial.svg alt></p>
-<p>The resulting <em>orientation</em> after a rotation of <span>
+shown in the following figure where <em>i</em> is red and <em>j</em> is green.</p><p><img src=initial.svg alt></p><p>The resulting <em>orientation</em> after a rotation of <span>
 \(\theta\)
 </span>
-radians can be described by the following rotation matrix:</p>
-<p><em>see page on rotation matrices</em>
+radians can be described by the following rotation matrix:</p><p><em>see page on rotation matrices</em>
 <span>
 \[R
 =
@@ -133,9 +91,7 @@ radians can be described by the following rotation matrix:</p>
 \sin(\theta) & \cos(\theta)
 \end{bmatrix}.\]
 </span>
-</p>
-<p>We obtain the new basis by</p>
-<span>
+</p><p>We obtain the new basis by</p><span>
 \[RB
 =
 \begin{bmatrix}
@@ -150,8 +106,7 @@ radians can be described by the following rotation matrix:</p>
 <h2 id=example>
 Example
 <a class=anchor href=#example>#</a>
-</h2>
-<p>Suppose
+</h2><p>Suppose
 <span>
 \(\theta=\frac{\pi}{2}\)
 </span>
@@ -168,8 +123,7 @@ radians. Then we have the following orientation:
 0 & 1
 \end{bmatrix}\]
 </span>
-</p>
-<span>
+</p><span>
 \[=
 \begin{bmatrix}
 \cos(\frac{\pi}{2}) & -\sin(\frac{\pi}{2}) \\
@@ -191,37 +145,16 @@ i & j \\
 </span>
 <div class="book-columns flex flex-wrap">
 <div class="flex-even markdown-inner">
-<p><img src=final.svg alt=gif></p>
-<p><img src=out.gif alt=gif></p>
-<h1 id=gyroscope>
+<p><img src=final.svg alt=gif></p><p><img src=out.gif alt=gif></p><h1 id=gyroscope>
 Gyroscope
 <a class=anchor href=#gyroscope>#</a>
-</h1>
-<p>Suppose the rigid body has a gyroscope which is located on the rigid body at the origin. As the rigid body rotates, so does the gyroscope. The gyroscope has a sampling rate f, and the gyroscope provides a &lsquo;reading&rsquo; every 1/f seconds. Suppose this gyroscope has 1 degree of freedom (natural for a gyroscope living in a 2 dimensional world); thus, a reading from the gyroscope consists of 1 value, angular velocity, omega. Suppose this gyroscope also outputs a timestamp t with omega.</p>
-<p>Suppose the rigid body is at rest, then the reading from the gyroscope will be (omega,t) = (0 rad/s, t)</p>
-</div>
-</div>
-</article>
-<footer class=book-footer>
+</h1><p>Suppose the rigid body has a gyroscope which is located on the rigid body at the origin. As the rigid body rotates, so does the gyroscope. The gyroscope has a sampling rate f, and the gyroscope provides a &lsquo;reading&rsquo; every 1/f seconds. Suppose this gyroscope has 1 degree of freedom (natural for a gyroscope living in a 2 dimensional world); thus, a reading from the gyroscope consists of 1 value, angular velocity, omega. Suppose this gyroscope also outputs a timestamp t with omega.</p><p>Suppose the rigid body is at rest, then the reading from the gyroscope will be (omega,t) = (0 rad/s, t)</p></div></div></article><footer class=book-footer>
 <div class="flex flex-wrap justify-between">
-</div>
-<script>(function(){function a(c){const a=window.getSelection(),b=document.createRange();b.selectNodeContents(c),a.removeAllRanges(),a.addRange(b)}document.querySelectorAll("pre code").forEach(b=>{b.addEventListener("click",function(c){a(b.parentElement),navigator.clipboard&&navigator.clipboard.writeText(b.parentElement.textContent)})})})()</script>
-</footer>
-<div class=book-comments>
-</div>
-<label for=menu-control class="hidden book-menu-overlay"></label>
-</div>
-<aside class=book-toc>
+</div><script>(function(){function e(n){const e=window.getSelection(),t=document.createRange();t.selectNodeContents(n),e.removeAllRanges(),e.addRange(t)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script>
+</footer><div class=book-comments>
+</div><label for=menu-control class="hidden book-menu-overlay"></label>
+</div><aside class=book-toc>
 <div class=book-toc-content>
 <nav id=TableOfContents>
 <ul>
-<li><a href=#2-dimensional-idealization>2 Dimensional Idealization</a></li>
-<li><a href=#formalism>Formalism</a></li>
-<li><a href=#example>Example</a></li>
-</ul>
-</nav>
-</div>
-</aside>
-</main>
-</body>
-</html>
+<li><a href=#2-dimensional-idealization>2 Dimensional Idealization</a></li><li><a href=#formalism>Formalism</a></li><li><a href=#example>Example</a></li></ul></nav></div></aside></main></body></html>
