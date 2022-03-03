@@ -85,7 +85,38 @@ def plot(Q, length, save=False):
         anim.save("anim.mp4", writer=writer)
     plt.show()
 
+def preprocess_phone_data(filename):
+    """
+    params :
+        filename : absolute or relative path to raw input file obtained from SensorLog for Apple Watch
+        save : save preprocessed file if True (default to True)
+        plot : plot data if True (default to True)
 
+    returns : 
+        df : pandas dataframe which is a subset of the original data with renamed columns
+
+    description : function takes input filename of raw input file from SensorLog for Apple Watch,
+        extracts a subset of the data columns, renames these columns to be terse, optionally plots
+        statistics about gyroscopic data
+    """
+    import pandas as pd
+    df = pd.read_csv(filename)
+    column_name_mapping_from_phone_names_to_my_names = {
+        'accelerometerTimestamp_sinceReboot(s)': 'acc_t',
+        'accelerometerAccelerationX(G)': 'acc_x',
+        'accelerometerAccelerationY(G)': 'acc_y',
+        'accelerometerAccelerationZ(G)': 'acc_z',
+        'gyroTimestamp_sinceReboot(s)': 'gyr_t',
+        'gyroRotationX(rad/s)': 'gyr_x',
+        'gyroRotationY(rad/s)': 'gyr_y',
+        'gyroRotationZ(rad/s)': 'gyr_z',
+    }
+    df = df[list(column_name_mapping_from_phone_names_to_my_names.keys())]
+    df = df.rename(column_name_mapping_from_phone_names_to_my_names, axis=1)
+    df['acc_t'] = df['acc_t']-df['acc_t'][0]
+    df.to_csv(filename.replace(".csv", "_preprocessed.csv"), index=False)
+    
+    return df
 def preprocess_watch_data(filename, save=True, plot=True):
     """
     params :
@@ -125,6 +156,7 @@ def preprocess_watch_data(filename, save=True, plot=True):
     }
     df = df[list(column_name_mapping_from_watch_names_to_my_names.keys())]
     df = df.rename(column_name_mapping_from_watch_names_to_my_names, axis=1)
+    df['acc_t'] = df['acc_t']-df['acc_t'][0]
     if(save):
         df.to_csv(filename.replace(".csv", "_preprocessed.csv"), index=False)
     if(plot):
