@@ -15,19 +15,7 @@ class Basis:
         self.i = i
         self.j = j
         self.k = k
-def get_rotation_matrix_from_yaw_pitch_roll(yaw,pitch,roll):
-    ## according to right hand rule,
-    # yaw = z rotation
-    # pitch = y rotation
-    # roll = x rotation
-    alpha = yaw
-    beta = pitch
-    gamma = roll
-    R_x = np.array([[1,0,0],[0,cos(gamma),-sin(gamma)],[0,sin(gamma),cos(gamma)]])
-    R_y = np.array([[cos(beta),0,sin(beta)],[0,1,0],[-sin(beta),0,cos(beta)]])
-    R_z = np.array([[cos(alpha),-sin(alpha),0],[sin(alpha),cos(alpha),0],[0,0,1]])
-    R = R_z @ R_y @ R_x
-    return R
+
 def get_rotation_quaternion_from_angular_velocity(angular_velocity):
     if(np.array_equiv(angular_velocity,np.array([0,0,0]))):
         # no rotation

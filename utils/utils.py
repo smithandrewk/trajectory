@@ -1,7 +1,5 @@
 import numpy as np
-def get_tilt_correction_rotation_matrix_from_accelerometer(acceleration):
-    a = acceleration
-    b = np.array([0,0,-1])
+def get_rotation_matrix_to_rotate_vector_a_to_vector_b(a,b=np.array([0,0,-1])):
     v = np.cross(a,b)
     s = np.linalg.norm(v)
     c = np.dot(a,b)
@@ -31,60 +29,6 @@ def get_rotation_matrix_from_yaw_pitch_roll(roll,pitch,yaw):
     return R
 def get_rotated_basis(basis,R):
     return R @ basis
-def plot(Q, length, save=False):
-    # plotting
-    import numpy as np
-    import matplotlib.pyplot as plt
-    from mpl_toolkits.mplot3d import axes3d
-    import matplotlib.animation as animation
-    from pytransform3d import rotations as pr
-
-    def update_lines(step, Q, rot):
-        R = pr.matrix_from_quaternion(Q[step])
-        print(step, "--", Q[step])
-        # Draw new frame
-        rot[0].set_data(np.array([0, R[0, 0]]), [0, R[1, 0]])
-        rot[0].set_3d_properties([0, R[2, 0]])
-
-        rot[1].set_data(np.array([0, R[0, 1]]), [0, R[1, 1]])
-        rot[1].set_3d_properties([0, R[2, 1]])
-
-        rot[2].set_data(np.array([0, R[0, 2]]), [0, R[1, 2]])
-        rot[2].set_3d_properties([0, R[2, 2]])
-
-        return rot
-
-    fig = plt.figure(figsize=(4, 3))
-    ax = fig.add_subplot(111, projection="3d")
-    ax.set_xlim((-1, 1))
-    ax.set_ylim((-1, 1))
-    ax.set_zlim((-1, 1))
-    ax.set_xlabel("X")
-    ax.set_ylabel("Y")
-    ax.set_zlabel("Z")
-
-    R = pr.matrix_from_quaternion([1, 0, 0, 0])
-
-    rot = [
-        ax.plot([0, 1], [0, 0], [0, 0], c="r", lw=3)[0],
-        ax.plot([0, 0], [0, 1], [0, 0], c="g", lw=3)[0],
-        ax.plot([0, 0], [0, 0], [0, 1], c="b", lw=3)[0],
-
-        ax.plot([0, R[0, 0]], [0, R[1, 0]], [0, R[2, 0]],
-                c="r", lw=3, alpha=0.3)[0],
-        ax.plot([0, R[0, 1]], [0, R[1, 1]], [0, R[2, 1]],
-                c="g", lw=3, alpha=0.3)[0],
-        ax.plot([0, R[0, 2]], [0, R[1, 2]], [0, R[2, 2]],
-                c="b", lw=3, alpha=0.3)[0]
-    ]
-    anim = animation.FuncAnimation(fig, update_lines, length,
-                                   fargs=(Q, rot),
-                                   interval=1, blit=False)
-    if(save):
-        writer = animation.ImageMagickWriter(fps=100, bitrate=1)
-        anim.save("anim.mp4", writer=writer)
-    plt.show()
-
 
 def preprocess_watch_data(filename, save=True, plot=True):
     """
@@ -145,7 +89,10 @@ def preprocess_watch_data(filename, save=True, plot=True):
         plt.show()
     return df
 
-
+def quiver_data_to_segments(X, Y, Z, u, v, w, length=1):
+    segments = (X, Y, Z, X+v*length, Y+u*length, Z+w*length)
+    segments = np.array(segments).reshape(6,-1)
+    return [[[x, y, z], [u, v, w]] for x, y, z, u, v, w in zip(*list(segments))]
 def save_fig_as_pgf():
     import matplotlib
     import matplotlib.pyplot as plt
@@ -258,28 +205,31 @@ def animate_trajectory(time,bases,trajectory):
         A2B[:3, :3] = R
         A2B[:3,3] = trajectory[step]
         frame.set_data(A2B)
+        ax.plot(trajectory[step][0],trajectory[step][1],color='red')
         return frame
 
 
     n_frames = len(time)
     lim = 2
-    fig = plt.figure(figsize=(5, 5))
+    fig = plt.figure(figsize=(12, 5))
 
-    ax = fig.add_subplot(111, projection="3d")
-    ax.set_xlim((-lim, lim))
-    ax.set_ylim((-lim, lim))
-    ax.set_zlim((-lim, lim))
-    ax.set_xlabel("X")
-    ax.set_ylabel("Y")
-    ax.set_zlabel("Z")
-
+    ax = fig.add_subplot(111, projection="3d",box_aspect=(10,4,1))
+    ax.set_xlim((0, 10))
+    ax.set_ylim((-.5, 4))
+    ax.set_zlim((-.5, .5))
+    ax.set_xlabel("X (meters)",labelpad=20)
+    ax.set_ylabel("Y (meters)")
+    ax.set_zlabel("Z (meters)")
+    ax.set_yticks([4,2,0])
+    ax.set_zticks([.5,0])
+    ax.view_init(elev=40., azim=260)
     frame = Frame(np.eye(4), label="rotating frame", s=0.5)
     frame.add_frame(ax)
 
     anim = animation.FuncAnimation(
-        fig, update_frame, n_frames, fargs=(n_frames, frame), interval=50,
+        fig, update_frame, n_frames, fargs=(n_frames, frame), interval=1,
         blit=False)
-    anim.save('figures/basic_animation.mp4', fps=100, extra_args=['-vcodec', 'libx264'])
+    anim.save('figures/basic_animation.mp4',dpi=200, fps=10, extra_args=['-vcodec', 'libx264'])
 
     plt.show()
 # Plot values in opencv program
@@ -399,7 +349,7 @@ def process_line(line,device):
         return 0,0,0
     if(device=="watch"):
         t = float(line[10])
-        acc = line[11:14]
+        acc = list(map(float, line[11:14]))
         omega = list(map(float, line[18:21]))
     elif(device=="phone"):
         t = float(line[2])
