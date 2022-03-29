@@ -1,6 +1,0 @@
-sampling rate: 100 Hz
-device: Andrew's Apple Watch
-duration: approximately 10 seconds, 180 degree roll, pause, -180 degree roll
-time: 15:01
-date: 2021-11-22
-notes: 

@@ -1,3 +1,5 @@
+run:
+	nc -l 65432 | ./animate_sensors_live.py
 install:
 	cowsay installing
 	pip3 install -r requirements.txt

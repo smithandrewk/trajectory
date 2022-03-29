@@ -1,5 +1,0 @@
-sampling rate: 100 Hz
-device: Andrew's iPhone
-duration: approximately 30 seconds
-time: 20:31
-date: 2021-10-28
