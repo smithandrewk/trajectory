@@ -76,7 +76,7 @@ def process_line(line,device):
     line = line.strip()
     line = line.split(',')
     if(line[0]=="loggingTime(txt)"):
-        return 0,0,0
+        return None,None,None
     if(device=="watch"):
         t = float(line[10])
         acc = list(map(float, line[11:14]))
