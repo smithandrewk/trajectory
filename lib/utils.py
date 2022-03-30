@@ -1,4 +1,48 @@
 import numpy as np
+def preprocess_phone_data(filename):
+    """
+    params :
+        filename : absolute or relative path to raw input file obtained from SensorLog for Apple Watch
+        save : save preprocessed file if True (default to True)
+        plot : plot data if True (default to True)
+    returns : 
+        df : pandas dataframe which is a subset of the original data with renamed columns
+    description : function takes input filename of raw input file from SensorLog for Apple Watch,
+        extracts a subset of the data columns, renames these columns to be terse, optionally plots
+        statistics about gyroscopic data
+    """
+    import pandas as pd
+    df = pd.read_csv(filename,names=['loggingTime(txt)',
+    'loggingSample(N)',
+    'accelerometerTimestamp_sinceReboot(s)',
+    'accelerometerAccelerationX(G)',
+    'accelerometerAccelerationY(G)',
+    'accelerometerAccelerationZ(G)',
+    'gyroTimestamp_sinceReboot(s)',
+    'gyroRotationX(rad/s)',
+    'gyroRotationY(rad/s)',
+    'gyroRotationZ(rad/s)',
+    'magnetometerTimestamp_sinceReboot(s)',
+    'magnetometerX(µT)',
+    'magnetometerY(µT)',
+    'magnetometerZ(µT)'], header=None)
+
+    column_name_mapping_from_phone_names_to_my_names = {
+        'accelerometerTimestamp_sinceReboot(s)': 'acc_t',
+        'accelerometerAccelerationX(G)': 'acc_x',
+        'accelerometerAccelerationY(G)': 'acc_y',
+        'accelerometerAccelerationZ(G)': 'acc_z',
+        'gyroTimestamp_sinceReboot(s)': 'gyr_t',
+        'gyroRotationX(rad/s)': 'gyr_x',
+        'gyroRotationY(rad/s)': 'gyr_y',
+        'gyroRotationZ(rad/s)': 'gyr_z',
+    }
+    df = df[list(column_name_mapping_from_phone_names_to_my_names.keys())]
+    df = df.rename(column_name_mapping_from_phone_names_to_my_names, axis=1)
+    df['acc_t'] = df['acc_t']-df['acc_t'][0]
+    df.to_csv(filename.replace(".csv", "_preprocessed.csv"), index=False)
+    
+    return df
 def process_line(line,device):
     """
     loggingTime(txt),
@@ -23,7 +67,7 @@ def process_line(line,device):
     locationLongitude(WGS84),
     locationAltitude(m),
     locationSpeed(m/s),
-    locat     ionCourse(°),
+    locationCourse(°),
     locationVerticalAccuracy(m),
     locationHorizontalAccuracy(m),
     locationFloor(Z),
@@ -52,21 +96,21 @@ def process_line(line,device):
     motionMagneticFieldX(µT),
     motionMagneticFieldY(µT),
     motionMagneticFieldZ(µT),
-    m     otionHeading(°),m
+    motionHeading(°),m
     otionMagneticFieldCalibrationAccuracy(Z),
     activityTimestamp_sinceReboot(s),
     activity(txt),activityActivityConfidence(Z),
-    activi     tyActivityStartDate(txt),p
+    activityActivityStartDate(txt),p
     edometerStartDate(txt),
     pedometerNumberofSteps(N),
     pedometerAverageActivePace(s/m),
     pedometerCurrentPace(s/m),
-    pedomete     rCurrentCadence(steps/s),
+    pedometerCurrentCadence(steps/s),
     pedometerDistance(m),
     pedometerFloorAscended(N),
     pedometerFloorDescended(N)
     ,pedometerEndDate(txt),
-    altimeterTimestamp_s     inceReboot(s)
+    altimeterTimestamp_sinceReboot(s)
     ,altimeterReset(bool),
     altimeterRelativeAltitude(m),
     altimeterPressure(kPa),
@@ -75,8 +119,8 @@ def process_line(line,device):
     """
     line = line.strip()
     line = line.split(',')
-    if(line[0]=="loggingTime(txt)"):
-        return None,None,None
+    if(line[0]=="loggingTime(txt)" or line[0]=="acc_t"):
+        return 0,0,0
     if(device=="watch"):
         t = float(line[10])
         acc = list(map(float, line[11:14]))
