@@ -1,15 +1,16 @@
 from lib.plot_utils import plot_basis, plot_vector
 from numpy import meshgrid
 from lib.utils import get_rotation_matrix_to_rotate_vector_a_to_vector_b
-
+from numpy import eye
 def algorithm(t,omega,acc,fig,ax):
     ax.clear()
-    R = get_rotation_matrix_to_rotate_vector_a_to_vector_b(a=acc,b=[0,0,-1])
-    g = R @ acc
+    acc[2] = -acc[2]
+    # R = get_rotation_matrix_to_rotate_vector_a_to_vector_b(a=acc,b=[0,0,-1])
+    # g = R @ acc
     plot_vector(ax=ax,v=acc)
-    plot_vector(ax=ax,v=g,color=(1,0,0))
-    ax.legend(['acc','g'])
-    # plot_basis(ax,R=R)
+    # plot_vector(ax=ax,v=g,color=(1,0,0))
+    ax.legend(['acc'])
+    plot_basis(ax,R=eye(3))
 
 def template(t,omega,acc,fig,ax):
     ax.clear()

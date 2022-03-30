@@ -1,2 +1,5 @@
+LOGPATH = data
+LOGFILE = $(LOGPATH)/$(shell date "+%y-%m-%d-%H:%M:%S")
+
 run:
-	nc -l 65432 | ./animate_sensors_live.py
+	nc -ul 65432 | tee $(LOGFILE).data | ./animate_sensors_live.py
